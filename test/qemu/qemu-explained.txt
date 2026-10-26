@@ -1,0 +1,8 @@
+# Differences between Ghidra's p-code and QEMU 10.2 user-mode sh4, with the reason each is
+# accepted.  Format: <mnemonic> <field|*> <any|rm==rn|rm=0> <reason>
+rotl T any QEMU never sets T from rotl/rotr (SH manual: the bit rotated out goes to T, see the emulator cases rotl_rotr and rotcr_t_out)
+rotr T any QEMU never sets T from rotl/rotr (SH manual: the bit rotated out goes to T, see the emulator cases rotl_rotr and rotcr_t_out)
+mac.l * rm==rn QEMU loads both operands before post-incrementing; the manual's pseudo-code reads and increments Rn, then Rm
+mac.w * rm==rn QEMU loads both operands before post-incrementing; the manual's pseudo-code reads and increments Rn, then Rm
+div1 T rm=0 QEMU computes T differently for a zero divisor; the manual pseudo-code gives the module's value (checked with an independent transcription of the pseudo-code)
+div1 T rm==rn QEMU computes T differently when Rm and Rn are the same register; the result registers agree and the module follows the manual pseudo-code (independent transcription checked)

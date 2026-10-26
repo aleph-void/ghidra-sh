@@ -77,7 +77,6 @@ attach variables [ n2_fr n3_fr ] [ FR0 FR1 FR2 FR3 FR4 FR5 FR6 FR7 FR8 FR9 FR10 
 @endif
 
 define pcodeop sleep;
-define pcodeop prefetch;
 @if defined(SH3)
 define pcodeop load_tlb;
 @endif
@@ -1101,7 +1100,7 @@ rel_imm12: rel is imm12_s [ rel = inst_next + 2 + imm12_s * 2; ] {
 
 :pref @n2_reg is n1=0x0 & n2_reg & n3=0x8 & n4=0x3
 {
-	prefetch(n2_reg);
+	# a cache hint: no architectural effect, never faults
 }
 
 :ldc n2_reg,SSR is n1=0x4 & n2_reg & n3=0x3 & n4=0xe & SSR
